@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Challenge</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>Typing Speed Challenge</h1>
+    <p>Word Meaning or Defination :</p>
+    <div id="definitionDisplay"></div>
+    <div id="gameArea">
+      <div id="wordDisplay"></div>
+      <div id="progressBar"></div>
+    </div>
+    <input type="text" id="inputBox" placeholder="Type here..." autofocus>
+    <div id="scoreboard">
+      <p>Score: <span id="score">0</span></p>
+      <p>Time: <span id="time">0</span>s</p>
+    </div>
+    <div id="previousScores">
+        <h3>Previous Scores</h3>
+        <ul id="scoreList"></ul>
+      </div>
+    <div id="controls">
+      <button id="pauseButton">Pause or Zero</button>
+      <button id="exitButton">Exit</button>
+    </div>
+  </div>
+  <audio id="correctSound" src="correct-choice-43861.mp3"></audio>
+  <audio id="gameOverSound" src="gameover.mp3"></audio>
+  <script src="script.js"></script>
+</body>
+</html>

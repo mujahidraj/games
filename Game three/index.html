@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Card Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>Memory Card Game</h1>
+    <div id="stats">
+      <p>Round: <span id="round">1</span>/4</p>
+      <p>Matches: <span id="matchCount">0</span>/<span id="totalPairs">2</span></p>
+      <p>Time: <span id="time">60</span>s</p>
+    </div>
+    <div id="cardGrid"></div>
+  </div>
+
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p><strong>What is this?</strong></p>
+      <p id="modalWhat"></p>
+      <p><strong>Where is it used?</strong></p>
+      <p id="modalWhere"></p>
+      <p><strong>How to use it?</strong></p>
+      <p id="modalHow"></p>
+    </div>
+  </div>
+
+  <audio id="matchSound" src="keyswipe-card-103918.mp3"></audio>
+  <audio id="winSound" src="spin-complete-295086.mp3"></audio>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
