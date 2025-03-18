@@ -1,81 +1,111 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const scoreElement = document.getElementById("score");
+const pauseButton = document.getElementById("pauseButton");
 
-// Game variables
+const catchSound = new Audio("catch.mp3"); 
+const missSound = new Audio("miss.mp3"); 
+const gameOverSound = new Audio("gameover.mp3"); 
+
 let score = 0;
 let gameOver = false;
-const basketWidth = 80;
-const basketHeight = 20;
+let isPaused = false;
+const basketWidth = 100; 
+const basketHeight = 30; 
 const basketSpeed = 10;
 let basketX = (canvas.width - basketWidth) / 2;
 
-const objectRadius = 15;
-let objectX = Math.random() * (canvas.width - objectRadius * 2) + objectRadius;
+const objects = [
+  "🖥️", "💻", "📡", "🖨️", "🖱️", "⌨️", "🎧", "🎤", "🔊", "📠"
+];
+let currentObject = objects[Math.floor(Math.random() * objects.length)];
+let objectX = Math.random() * (canvas.width - 30) + 15;
 let objectY = 0;
-const objectSpeed = 3;
+const objectSpeed = 6;
 
-// Draw basket
+
 function drawBasket() {
-  ctx.fillStyle = "blue";
-  ctx.fillRect(basketX, canvas.height - basketHeight, basketWidth, basketHeight);
-}
 
-// Draw falling object
-function drawObject() {
+  ctx.fillStyle = "#8B4513"; 
   ctx.beginPath();
-  ctx.arc(objectX, objectY, objectRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "red";
-  ctx.fill();
+  ctx.moveTo(basketX, canvas.height - basketHeight);
+  ctx.lineTo(basketX + basketWidth, canvas.height - basketHeight);
+  ctx.lineTo(basketX + basketWidth - 20, canvas.height);
+  ctx.lineTo(basketX + 20, canvas.height);
   ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = "#A0522D"; 
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(basketX + basketWidth / 2, canvas.height - basketHeight - 10, 20, 0, Math.PI);
+  ctx.stroke();
 }
 
-// Update game state
-function update() {
-  if (gameOver) return;
+function drawObject() {
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#004d40"; 
+  ctx.fillText(currentObject, objectX, objectY);
+}
 
-  // Clear canvas
+function update() {
+  if (gameOver || isPaused) return;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Move object
   objectY += objectSpeed;
 
-  // Check if object hits the ground
-  if (objectY + objectRadius > canvas.height) {
+  if (objectY + 30 > canvas.height) {
     if (
       objectX > basketX &&
       objectX < basketX + basketWidth
     ) {
-      // Object caught
+      
       score++;
       scoreElement.textContent = score;
+      catchSound.play(); 
     } else {
-      // Object missed
+      
       gameOver = true;
-      alert(`Game Over! Your score: ${score}`);
-      document.location.reload();
+      missSound.play(); 
+      setTimeout(() => {
+        gameOverSound.play(); 
+        alert(`Game Over! Your score: ${score}`);
+        document.location.reload();
+      }, 500); 
     }
-    // Reset object position
-    objectX = Math.random() * (canvas.width - objectRadius * 2) + objectRadius;
+   
+    currentObject = objects[Math.floor(Math.random() * objects.length)];
+    objectX = Math.random() * (canvas.width - 30) + 15;
     objectY = 0;
   }
 
-  // Draw elements
+  
   drawBasket();
   drawObject();
 
-  // Request next frame
+
   requestAnimationFrame(update);
 }
 
-// Handle keyboard input
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft" && basketX > 0) {
     basketX -= basketSpeed;
   } else if (e.key === "ArrowRight" && basketX < canvas.width - basketWidth) {
     basketX += basketSpeed;
+  } else if (e.key === "0" || e.key==="9") { 
+    isPaused = !isPaused;
+    
+    pauseButton.textContent = isPaused ? "Resume" : "Pause";
   }
 });
 
-// Start the game
+
+pauseButton.addEventListener("click", () => {
+  isPaused = !isPaused;
+  pauseButton.textContent = isPaused ? "Resume" : "Pause";
+});
+
+
 update();
